@@ -1,13 +1,16 @@
+--типы больниц
 insert into HOSPITAL_TYPES(name)
 values ('частная');
 insert into HOSPITAL_TYPES(name)
 values ('государственная');
 
+--статусы госпиталя
 insert into HOSPITAL_STATUS(name)
 values ('доступна');
 insert into HOSPITAL_STATUS(name)
 values ('недоступна');
 
+--регионы
 insert into REGIONS(name)
 values ('Кемеровская область');
 insert into REGIONS(name)
@@ -19,6 +22,7 @@ values ('Томская область');
 insert into REGIONS(name)
 values ('Алтайский край');
 
+--города
 insert into TOWNS(NAME , ID_REGION)
 values ('Кемерово', 7);
 insert into TOWNS(name , id_region)
@@ -49,3 +53,49 @@ insert into TOWNS(name , id_region)
 values ('Бийск', 11);
 insert into TOWNS(name , id_region)
 values ('Рубцовск', 11);
+
+--кемеровская область
+insert into MEDICAL_ORGANIZATIONS(name, ID_TOWN)
+values ('Государственное автономное учреждение здравоохранения', 9);
+insert into MEDICAL_ORGANIZATIONS(name, ID_TOWN)
+values ('Государственное автономное учреждение здравоохранения', 10);
+insert into MEDICAL_ORGANIZATIONS(name, ID_TOWN)
+values ('Государственное бюджетное учреждение здравоохранения', 10);
+insert into MEDICAL_ORGANIZATIONS(name, ID_TOWN)
+values ('Государственное бюджетное учреждение здравоохранения', 11);
+--новосибирская область
+insert into MEDICAL_ORGANIZATIONS(name, ID_TOWN)
+values ('Государственное автономное учреждение здравоохранения', 12);
+insert into MEDICAL_ORGANIZATIONS(name, ID_TOWN)
+values ('Государственное автономное учреждение здравоохранения', 13);
+insert into MEDICAL_ORGANIZATIONS(name, ID_TOWN)
+values ('Государственное автономное учреждение здравоохранения', 14);
+insert into MEDICAL_ORGANIZATIONS(name, ID_TOWN)
+values ('Государственное бюджетное учреждение здравоохранения', 14);
+--красноярский край
+insert into MEDICAL_ORGANIZATIONS(name, ID_TOWN)
+values ('Государственное автономное учреждение здравоохранения', 15);
+insert into MEDICAL_ORGANIZATIONS(name, ID_TOWN)
+values ('Государственное автономное учреждение здравоохранения', 16);
+insert into MEDICAL_ORGANIZATIONS(name, ID_TOWN)
+values ('Государственное автономное учреждение здравоохранения', 17);
+insert into MEDICAL_ORGANIZATIONS(name, ID_TOWN)
+values ('Государственное бюджетное учреждение здравоохранения', 17);
+--томская область
+insert into MEDICAL_ORGANIZATIONS(name, ID_TOWN)
+values ('Государственное автономное учреждение здравоохранения', 18);
+insert into MEDICAL_ORGANIZATIONS(name, ID_TOWN)
+values ('Государственное автономное учреждение здравоохранения', 19);
+insert into MEDICAL_ORGANIZATIONS(name, ID_TOWN)
+values ('Государственное автономное учреждение здравоохранения', 20);
+insert into MEDICAL_ORGANIZATIONS(name, ID_TOWN)
+values ('Государственное бюджетное учреждение здравоохранения', 18);
+--алтайский край
+insert into MEDICAL_ORGANIZATIONS(name, ID_TOWN)
+values ('Государственное автономное учреждение здравоохранения', 21);
+insert into MEDICAL_ORGANIZATIONS(name, ID_TOWN)
+values ('Государственное автономное учреждение здравоохранения', 22);
+insert into MEDICAL_ORGANIZATIONS(name, ID_TOWN)
+values ('Государственное автономное учреждение здравоохранения', 23);
+insert into MEDICAL_ORGANIZATIONS(name, ID_TOWN)
+values ('Государственное бюджетное учреждение здравоохранения', 21);
