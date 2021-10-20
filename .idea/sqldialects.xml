@@ -2,6 +2,7 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/insert_tables.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/selects.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/tables.sql" dialect="Oracle" />
   </component>
 </project>
