@@ -68,5 +68,9 @@ begin
             i:= a_doctors.NEXT(i);
         end;
         end loop;
+
+
+
+
 end;
 

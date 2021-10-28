@@ -308,16 +308,23 @@ insert into RECORDS(date_record, id_patient, date_cancellation, id_status, id_ti
 values ('10/10/2021',22,default,5,14);
 
 insert into WORK_DAYS(day, begin_time, end_time, id_hospital)
-values ('пн',to_date('08:00', 'hh:mi'),to_date('18:00', 'hh24:mi'),1);
+values ('Понедельник',to_date('08:00', 'hh:mi'),to_date('18:00', 'hh24:mi'),4);
 insert into WORK_DAYS(day, begin_time, end_time, id_hospital)
-values ('вт',to_date('08:00', 'hh:mi'),to_date('18:00', 'hh24:mi'),1);
+values ('Вторник',to_date('08:00', 'hh:mi'),to_date('18:00', 'hh24:mi'),4);
 insert into WORK_DAYS(day, begin_time, end_time, id_hospital)
-values ('ср',to_date('08:00', 'hh:mi'),to_date('18:00', 'hh24:mi'),1);
+values ('Среда',to_date('08:00', 'hh:mi'),to_date('18:00', 'hh24:mi'),4);
 insert into WORK_DAYS(day, begin_time, end_time, id_hospital)
-values ('чт',to_date('08:00', 'hh:mi'),to_date('18:00', 'hh24:mi'),1);
+values ('Четверг',to_date('08:00', 'hh:mi'),to_date('18:00', 'hh24:mi'),4);
 insert into WORK_DAYS(day, begin_time, end_time, id_hospital)
-values ('пт',to_date('08:00', 'hh:mi'),to_date('15:00', 'hh24:mi'),1);
+values ('Пятница',to_date('08:00', 'hh:mi'),to_date('15:00', 'hh24:mi'),4);
 insert into WORK_DAYS(day, begin_time, end_time, id_hospital)
-values ('сб',default,default,1);
+values ('Суббота',to_date('01:00', 'hh:mi'),to_date('23:59', 'hh24:mi'),4);
 insert into WORK_DAYS(day, begin_time, end_time, id_hospital)
-values ('вс',default,default,1);
+values ('Воскресенье',to_date('01:00', 'hh:mi'),to_date('23:59', 'hh24:mi'),4);
+
+insert into WORK_DAYS(day, begin_time, end_time, id_hospital)
+values ('Воскресенье',to_date('01:00', 'hh:mi'),to_date('23:59', 'hh24:mi'),5);
+
+
+insert into PEROV_VL.RECORDS(DATE_RECORD, ID_PATIENT, DATE_CANCELLATION, ID_STATUS, ID_TICKET)
+values
