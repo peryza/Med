@@ -110,7 +110,6 @@ left join PEROV_VL.SPECIALIZATIONS s
     on s.ID_SPECIALIZATION = ds.ID_SPECIALIZATION
 left join  PEROV_VL.WORK_DAYS wd
     on h.ID_HOSPITAL = wd.ID_HOSPITAL
-
 where
     h.DATE_DELETE is null and
       s.ID_SPECIALIZATION = 22 and
@@ -118,7 +117,7 @@ where
 group by h.name, hs.NAME, ht.NAME, wd.BEGIN_TIME, wd.END_TIME, h.ID_HOSPITAL_TYPE
 order by
     case
-        when to_char(sysdate,'HH24:mi') < to_char(wd.END_TIME,'HH24:mi') then 1
+        when trunc(sysdate,'HH24:mi') < trunc(wd.END_TIME,'HH24:mi') then 1
         when count(d.ID_DOCTOR) > 0 then 2
         when h.ID_HOSPITAL_TYPE = 3 then 3
     else 0
