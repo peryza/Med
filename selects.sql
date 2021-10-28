@@ -1,3 +1,29 @@
+-- declare
+--
+-- cursor c_town is
+--         select t.NAME, r.name
+--         from PEROV_VL.TOWNS t
+--             join PEROV_VL.REGIONS r
+--                 on r.ID_REGION = t.ID_REGION ;
+-- type rec_town is record(
+--
+--     name_t varchar2(100),
+--     name_r varchar2(100)
+-- );
+-- v_town rec_town;
+--
+-- begin
+--     DBMS_OUTPUT.PUT_LINE(v_town.name_t||'____'||v_town.name_r);
+--     open c_town;
+--     loop
+--         fetch c_town into v_town;
+--         exit when c_town%notfound;
+--         DBMS_OUTPUT.PUT_LINE(v_town.name_t||'____'||v_town.name_r);
+--     end loop;
+--     close c_town;
+--
+-- end;
+
 ---	Выдать все города по регионам
 select
     t.NAME as town,
