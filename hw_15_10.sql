@@ -15,8 +15,6 @@ declare
     index by binary_integer;
     a_doctors arr_type;
     i binary_integer :=1;
-
-
 begin
 --#1
     select count( d.id_doctor)  into v_int from PEROV_VL.DOCTORS d ;
@@ -68,9 +66,5 @@ begin
             i:= a_doctors.NEXT(i);
         end;
         end loop;
-
-
-
-
 end;
 

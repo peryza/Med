@@ -1,5 +1,7 @@
---#1
 declare
+
+today varchar2(20) := to_char(sysdate, 'fmDay');
+--курсор городов
 cursor c_town is
         select t.NAME, r.name
         from PEROV_VL.TOWNS t
@@ -39,7 +41,7 @@ type rec_special is record(
 v_special rec_special;
 v_c_specialization sys_refcursor;
 
---курсор по больницам по конкретной специальности
+--курсор по больницам по кокретной специальности
 cursor c_hospital(p_id_special in integer) is
     select
     h.name as hospital,
@@ -137,32 +139,9 @@ type rec_ticket is record(
 );
 v_ticket rec_ticket;
 v_c_ticket sys_refcursor;
--- курсор для документов
-    cursor cursor_documents is
-        select doc.name, nb.DOCUMENT_NUMBER, p.LAST_NAME, p.NAME
-            from PEROV_VL.documents doc
-                join NUMBER_DOCUMENTS nb on doc.ID_DOCUMENT = nb.ID_DOCUMENT
-                    join PATIENT p on nb.ID_PATIENT = p.ID_PATIENT;
-    type record_doc is record(
-    doc_name varchar2(20),
-    num_doc varchar2(30),
-    pat_last_name varchar2(30),
-    pat_name varchar2(30)
-    );
-    record_documents record_doc;
---курсор для графика работы
-    cursor cursor_work is
-        select h.NAME, wd.DAY, to_char(wd.BEGIN_TIME, 'hh24:mi'), to_char(wd.END_TIME, 'hh24:mi')
-            from HOSPITALS h inner join WORK_DAYS wd on wd.ID_HOSPITAL = h.ID_HOSPITAL;
-    type record_work is record(
-    h_name varchar2(100),
-    day_name varchar2(100),
-    t_begin varchar2(100),
-    t_end varchar2(100)
-    );
-    record_work_time record_work;
+
 begin
-DBMS_OUTPUT.PUT_LINE('#1.1########Статический_курсор#########');
+    DBMS_OUTPUT.PUT_LINE('#1.1########Статический_курсор#########');
     open c_town;
     loop
         fetch c_town into v_town;
@@ -280,7 +259,7 @@ DBMS_OUTPUT.PUT_LINE('#1.1########Статический_курсор#########')
         where
             h.DATE_DELETE is null and
               s.ID_SPECIALIZATION = 22 and
-                 to_char(sysdate, 'fmDay') = wd.DAY
+                 today = wd.DAY
         group by h.name, hs.NAME, ht.NAME, wd.BEGIN_TIME, wd.END_TIME, h.ID_HOSPITAL_TYPE
         order by
         case
@@ -320,7 +299,7 @@ DBMS_OUTPUT.PUT_LINE('#1.1########Статический_курсор#########')
         where
             h.DATE_DELETE is null and
               s.ID_SPECIALIZATION = 22 and
-                 to_char(sysdate, 'fmDay') = wd.DAY
+                 today = wd.DAY
         group by h.name, hs.NAME, ht.NAME, wd.BEGIN_TIME, wd.END_TIME, h.ID_HOSPITAL_TYPE
         order by
         case
@@ -441,32 +420,4 @@ DBMS_OUTPUT.PUT_LINE('#1.1########Статический_курсор#########')
     end loop;
     close v_c_ticket;
 
-    DBMS_OUTPUT.put_line('================ВЫВОД ДОКУМЕНТОВ==================');
-    open cursor_documents;
-    loop
-        fetch cursor_documents into record_documents;
-        exit when cursor_documents%notfound;
-        DBMS_OUTPUT.put_line(record_documents.doc_name||' - ' ||
-                             ''||record_documents.num_doc||' - ' ||
-                             ''||record_documents.pat_last_name||' - ' ||
-                             ''||record_documents.pat_name);
-    end loop;
-    close cursor_documents;
-    DBMS_OUTPUT.put_line('================ВЫВОД графика работы==================');
-
-    declare
-        v_start varchar2(20);
-        v_end varchar2(20);
-    begin
-    open cursor_work;
-    loop
-        fetch cursor_work into record_work_time;
-        exit when cursor_work%notfound;
-        DBMS_OUTPUT.put_line(record_work_time.h_name||' - ' ||
-                             ''||record_work_time.day_name||' | ' ||
-                             ''||record_work_time.t_begin||' - ' ||
-                             ''||record_work_time.t_end);
-    end loop;
-    close cursor_work;
-    end;
 end;

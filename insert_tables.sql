@@ -289,7 +289,7 @@ values (4,1,'14/10/2021 13:00:00','14/10/2021 13:30:00');
 insert into TICKETS(id_doctor, id_status, start_date, end_date)
 values (4,1,'14/10/2021 14:00:00','14/10/2021 14:30:00');
 insert into TICKETS(id_doctor, id_status, start_date, end_date)
-values (4,1,'14/10/2021 15:00:00','14/10/2021 15:30:00');
+values (4,1,'14/11/2021 15:00:00','14/11/2021 15:30:00');
 
 insert into RECORD_STATUS(NAME)
 values ('действительна');

@@ -1,28 +1,3 @@
--- declare
---
--- cursor c_town is
---         select t.NAME, r.name
---         from PEROV_VL.TOWNS t
---             join PEROV_VL.REGIONS r
---                 on r.ID_REGION = t.ID_REGION ;
--- type rec_town is record(
---
---     name_t varchar2(100),
---     name_r varchar2(100)
--- );
--- v_town rec_town;
---
--- begin
---     DBMS_OUTPUT.PUT_LINE(v_town.name_t||'____'||v_town.name_r);
---     open c_town;
---     loop
---         fetch c_town into v_town;
---         exit when c_town%notfound;
---         DBMS_OUTPUT.PUT_LINE(v_town.name_t||'____'||v_town.name_r);
---     end loop;
---     close c_town;
---
--- end;
 
 ---	Выдать все города по регионам
 select
@@ -56,24 +31,43 @@ having count(d.ID_DOCTOR)>0;
 --кол-ве врачей; отсортировать по типу: частные выше, по кол-ву докторов: где больше выше,
 --по времени работы: которые еще работают выше
 
-select
-    hospitals.name as hospital,
-    count(DOCTORS.id_doctor) as count_doctors,
-    hs.NAME as status,
-    ht.NAME as type
-from PEROV_VL.HOSPITALS
-    left join PEROV_VL.DOCTORS
-        on HOSPITALS.ID_HOSPITAL = DOCTORS.ID_HOSPITAL
-    left join PEROV_VL.WORK_DAYS
-        on HOSPITALS.ID_HOSPITAL = WORK_DAYS.ID_HOSPITAL
-    left join PEROV_VL.HOSPITAL_STATUS HS
-        on HOSPITALS.ID_STATUS = HS.ID_STATUS
-    left join PEROV_VL.HOSPITAL_TYPES HT
-        on HOSPITALS.ID_HOSPITAL_TYPE = HT.ID_HOSPITAL_TYPE
-where HOSPITALS.DATE_DELETE is null
-group by hospitals.name, hs.NAME, ht.NAME
-order by ht.NAME desc , count_doctors desc ;
 
+
+select
+    h.name as hospital,
+    count(d.ID_DOCTOR) as doctor,
+    hs.NAME as status,
+    ht.NAME as type,
+    to_char(wd.BEGIN_TIME,'hh24:mi') as b_t,
+    to_char(wd.END_TIME,'hh24:mi') as e_t
+from PEROV_VL.HOSPITALS h
+left join doctors d
+    on h.ID_HOSPITAL = d.ID_HOSPITAL
+left join PEROV_VL.HOSPITAL_TYPES ht
+    on ht.ID_HOSPITAL_TYPE = h.ID_HOSPITAL_TYPE
+left join PEROV_VL.HOSPITAL_STATUS hs
+    on hs.ID_STATUS = h.ID_STATUS
+left join PEROV_VL.DOCTORS_SPECIALIZATIONS ds
+    on ds.ID_DOCTOR = d.ID_DOCTOR
+left join PEROV_VL.SPECIALIZATIONS s
+    on s.ID_SPECIALIZATION = ds.ID_SPECIALIZATION
+left join WORK_DAYS wd
+    on wd.ID_HOSPITAL = h.ID_HOSPITAL
+
+where
+    h.DATE_DELETE is null
+        and s.ID_SPECIALIZATION = 22
+            and wd.DAY = to_char(sysdate, 'fmDay')
+
+group by h.name, hs.NAME, ht.NAME, h.ID_HOSPITAL_TYPE, wd.BEGIN_TIME, wd.END_TIME
+order by
+    case
+        when to_char(sysdate,'HH24:mi') < to_char(wd.END_TIME,'HH24:mi') then 1
+        when count(d.ID_DOCTOR) > 0 then 2
+        when h.ID_HOSPITAL_TYPE = 3 then 3
+
+    else 0
+    end;
 --	Выдать всех врачей (неудаленных) конкретной больницы,
 --	отсортировать по квалификации: у кого есть выше,
 --	по участку: если участок совпадает с участком пациента, то такие выше
@@ -108,7 +102,7 @@ select
 from PEROV_VL.TICKETS t
     left join PEROV_VL.doctors d
         on d.ID_DOCTOR = t.ID_DOCTOR
-where d.ID_DOCTOR = 1
+where d.ID_DOCTOR = 4
     and t.START_DATE > sysdate;
 
 
@@ -116,36 +110,5 @@ where d.ID_DOCTOR = 1
 --кол-ве врачей; отсортировать по типу: частные выше, по кол-ву докторов: где больше выше,
 --по времени работы: которые еще работают выше
 
-select
-    h.name as hospital,
-    count(d.ID_DOCTOR) as doctor,
-    hs.NAME as status,
-    ht.NAME as type,
-    to_char(wd.BEGIN_TIME, 'hh24:mi') as start_time,
-    to_char(wd.END_TIME , 'hh24:mi') as end_time
-from PEROV_VL.HOSPITALS h
-left join doctors d
-    on h.ID_HOSPITAL = d.ID_HOSPITAL
-left join PEROV_VL.HOSPITAL_TYPES ht
-    on ht.ID_HOSPITAL_TYPE = h.ID_HOSPITAL_TYPE
-left join PEROV_VL.HOSPITAL_STATUS hs
-    on hs.ID_STATUS = h.ID_STATUS
-left join PEROV_VL.DOCTORS_SPECIALIZATIONS ds
-    on ds.ID_DOCTOR = d.ID_DOCTOR
-left join PEROV_VL.SPECIALIZATIONS s
-    on s.ID_SPECIALIZATION = ds.ID_SPECIALIZATION
-left join  PEROV_VL.WORK_DAYS wd
-    on h.ID_HOSPITAL = wd.ID_HOSPITAL
-where
-    h.DATE_DELETE is null and
-      s.ID_SPECIALIZATION = 22 and
-         to_char(sysdate,'Day') = wd.DAY
-group by h.name, hs.NAME, ht.NAME, wd.BEGIN_TIME, wd.END_TIME, h.ID_HOSPITAL_TYPE
-order by
-    case
-        when trunc(sysdate,'HH24:mi') < trunc(wd.END_TIME,'HH24:mi') then 1
-        when count(d.ID_DOCTOR) > 0 then 2
-        when h.ID_HOSPITAL_TYPE = 3 then 3
-    else 0
-    end;
+
 
