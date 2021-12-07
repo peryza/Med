@@ -25,10 +25,10 @@ begin
         s.name as special,
         count(d.id_doctor) as count_doctors
     from PEROV_VL.SPECIALIZATIONS s
-    inner join PEROV_VL.DOCTORS_SPECIALIZATIONS ds
-        on s.ID_SPECIALIZATION = ds.ID_SPECIALIZATION
+    inner join PEROV_VL.DOCTOR_SPECIALIZATIONS ds
+        on s.ID_SPECIALIZATION = ds.ID_SPECIALIZATIONS
     inner join PEROV_VL.DOCTORS d
-        on ds.ID_DOCTOR = d.ID_DOCTOR
+        on ds.ID_DOCTORS = d.ID_DOCTOR
     inner join PEROV_VL.HOSPITALS h
         on h.ID_HOSPITAL = d.ID_HOSPITAL
     where s.DATE_DELETE is null
@@ -63,10 +63,10 @@ v_c_hospital sys_refcursor;
                 on ht.ID_HOSPITAL_TYPE = h.ID_HOSPITAL_TYPE
             left join PEROV_VL.HOSPITAL_STATUS hs
                 on hs.ID_STATUS = h.ID_STATUS
-            left join PEROV_VL.DOCTORS_SPECIALIZATIONS ds
-                on ds.ID_DOCTOR = d.ID_DOCTOR
+            left join PEROV_VL.DOCTOR_SPECIALIZATIONS ds
+                on ds.ID_DOCTORS = d.ID_DOCTOR
             left join PEROV_VL.SPECIALIZATIONS s
-                on s.ID_SPECIALIZATION = ds.ID_SPECIALIZATION
+                on s.ID_SPECIALIZATION = ds.ID_SPECIALIZATIONS
             left join  PEROV_VL.WORK_DAYS wd
                 on h.ID_HOSPITAL = wd.ID_HOSPITAL
             where
@@ -130,7 +130,7 @@ begin
         t.START_DATE as time_start
     from PEROV_VL.TICKETS t
         left join PEROV_VL.doctors d
-            on d.ID_DOCTOR = t.ID_DOCTOR
+            on d.ID_DOCTOR = t.ID_DOCTORS
     where p_id_doctor is not null
           and d.ID_DOCTOR = p_id_doctor
             and t.START_DATE > sysdate;
@@ -173,10 +173,10 @@ begin
         s.name as special,
         count(d.id_doctor) as count_doctors
     from PEROV_VL.SPECIALIZATIONS s
-    inner join PEROV_VL.DOCTORS_SPECIALIZATIONS ds
-        on s.ID_SPECIALIZATION = ds.ID_SPECIALIZATION
+    inner join PEROV_VL.DOCTOR_SPECIALIZATIONS ds
+        on s.ID_SPECIALIZATION = ds.ID_SPECIALIZATIONS
     inner join PEROV_VL.DOCTORS d
-        on ds.ID_DOCTOR = d.ID_DOCTOR
+        on ds.ID_DOCTORS = d.ID_DOCTOR
     inner join PEROV_VL.HOSPITALS h
         on h.ID_HOSPITAL = d.ID_HOSPITAL
     where s.DATE_DELETE is null
@@ -222,10 +222,10 @@ begin
                 on ht.ID_HOSPITAL_TYPE = h.ID_HOSPITAL_TYPE
             left join PEROV_VL.HOSPITAL_STATUS hs
                 on hs.ID_STATUS = h.ID_STATUS
-            left join PEROV_VL.DOCTORS_SPECIALIZATIONS ds
-                on ds.ID_DOCTOR = d.ID_DOCTOR
+            left join PEROV_VL.DOCTOR_SPECIALIZATIONS ds
+                on ds.ID_DOCTORS = d.ID_DOCTOR
             left join PEROV_VL.SPECIALIZATIONS s
-                on s.ID_SPECIALIZATION = ds.ID_SPECIALIZATION
+                on s.ID_SPECIALIZATION = ds.ID_SPECIALIZATIONS
             left join  PEROV_VL.WORK_DAYS wd
                 on h.ID_HOSPITAL = wd.ID_HOSPITAL
             where
@@ -314,7 +314,7 @@ begin
         t.START_DATE as time_start
     from PEROV_VL.TICKETS t
         left join PEROV_VL.doctors d
-            on d.ID_DOCTOR = t.ID_DOCTOR
+            on d.ID_DOCTOR = t.ID_DOCTORS
     where p_id_doctor is not null
           and d.ID_DOCTOR = p_id_doctor
             and t.START_DATE > sysdate;
